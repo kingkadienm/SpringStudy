@@ -1,7 +1,7 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/user?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: 123456
@@ -12,6 +12,10 @@ spring:
         hbm2ddl:
           auto: update
     show-sql: true
+  jackson:
+    # 常用请求与响应自动转下划线，空值字段不传输
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_null
 
 
 mybatis-plus:
