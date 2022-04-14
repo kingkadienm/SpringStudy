@@ -12,15 +12,27 @@ spring:
         hbm2ddl:
           auto: update
     show-sql: true
+    open-in-view: false
+
   jackson:
-    # 常用请求与响应自动转下划线，空值字段不传输
     property-naming-strategy: SNAKE_CASE
     default-property-inclusion: non_null
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: true
+
+  logging:
+    file: target/app.log
+    level:
+      ROOT: ERROR
+      com.example.demo: TRACE
+#      com.example.demo: ERROR
 
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
-  type-aliases-package:  com.example.demo.pojo
+  type-aliases-package:  com.example.demo
 
 server:
   port: 8081

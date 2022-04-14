@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.bean.User;
 import com.example.demo.bean.request.ReceiveBean;
 import com.example.demo.bean.response.ResponseBean;
+import com.example.demo.log.LogUtils;
 import com.example.demo.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,9 @@ public class UserController {
         List<User> list = new ArrayList<>();
         list = userRepository.findAll();
         responseBean.setCode(200);
-        responseBean.setMessage("success");
+        responseBean.setMessage("success ");
         responseBean.setResult(list);
-        System.out.println("================");
+        LogUtils.printLog(list.toString());
         return responseBean;
     }
 
