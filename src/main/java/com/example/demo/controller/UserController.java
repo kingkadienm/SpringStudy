@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.bean.ResponseBean;
 import com.example.demo.bean.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +28,20 @@ public class UserController {
     public List<User> findAll() {
         List<User> list = new ArrayList<>();
         list = userRepository.findAll();
-        System.out.println("================");
         return list;
     }
 
     @RequestMapping("/getByUserName")
     @ResponseBody
-    public User getByUserName(String userName) {
+    public ResponseBean getByUserName(String userName) {
         User user = userRepository.findUserByUserName(userName);
-        return user;
+        ResponseBean responseBean = null;
+        if (user == null) {
+            responseBean = new ResponseBean(404, "没有该数据", null);
+        } else {
+            responseBean = new ResponseBean(200, "查询成功", user);
+        }
+        return responseBean;
     }
 
 }
