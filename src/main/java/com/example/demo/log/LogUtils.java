@@ -1,7 +1,8 @@
 package com.example.demo.log;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.example.demo.controller.TestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @description: log
@@ -9,10 +10,15 @@ import org.apache.commons.logging.LogFactory;
  * @create: 2022-04-14 22:52
  **/
 public class LogUtils {
-    private static final Log log = LogFactory.getLog(LogUtils.class);
+    static Logger log;
 
-    public static void printLog(String message){
-         log.debug(message);
+   static  {
+        log = LoggerFactory.getLogger(LogUtils.class);
+    }
+
+
+    public static void printLog(String message) {
+        log.debug(message);
     }
 
 }

@@ -13,7 +13,7 @@ import javax.management.Query;
  * @create: 2022-04-13 22:09
  **/
 @NoArgsConstructor
-@Data
+
 @AllArgsConstructor
 public class ReceiveBean extends Query {
 
