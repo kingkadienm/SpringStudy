@@ -1,3 +1,6 @@
+
+
+
 INSERT INTO `user`(`id`, `user_name`, `user_id`, `user_password`) VALUES (1, 'userName001', 'userId001', '123456');
 INSERT INTO `user`(`id`, `user_name`, `user_id`, `user_password`) VALUES (2, 'userName002', 'userId002', '123456');
 INSERT INTO `user`(`id`, `user_name`, `user_id`, `user_password`) VALUES (3, 'userName003', 'userId003', '123456');

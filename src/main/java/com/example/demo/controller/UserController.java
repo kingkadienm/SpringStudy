@@ -5,9 +5,11 @@ import com.example.demo.bean.User;
 import com.example.demo.bean.request.ReceiveBean;
 import com.example.demo.bean.response.ResponseBean;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,9 @@ public class UserController {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private IUserService iUserService;
+
     @RequestMapping("/getAllUser")
     @ResponseBody
     public ResponseBean findAll() {
@@ -38,7 +43,7 @@ public class UserController {
         return responseBean;
     }
 
-    @RequestMapping(value = "/getByUserName",method = RequestMethod.POST)
+    @RequestMapping(value = "/getByUserName", method = RequestMethod.POST)
     @ResponseBody
     public ResponseBean getByUserName(ReceiveBean receiveBean) {
         User user = userRepository.findUserByUserName(receiveBean.getUserName());
@@ -64,6 +69,18 @@ public class UserController {
             responseBean = new ResponseBean(404, "该用户已经存在", user);
         }
         return responseBean;
+    }
+
+    @RequestMapping("/")
+    @ResponseBody
+    public ResponseBean loginUser(@RequestBody ReceiveBean receiveBean, HttpServletRequest request) {
+
+        ResponseBean responseBean = iUserService.loginCheck(request);
+
+
+
+
+        return iUserService.loginUser();
     }
 
 }

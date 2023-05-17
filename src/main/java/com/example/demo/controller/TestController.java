@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.bean.User;
 import com.example.demo.log.LogUtils;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.tools.PassToken;
+import com.example.demo.tools.UserLoginToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.Mapping;
@@ -19,16 +21,16 @@ import java.util.List;
 public class TestController {
 
 
-
+    @PassToken
     @RequestMapping("/login")
     public String getLogin() {
-        return "111111111111";
+        return "33333";
     }
 
     @Autowired
     private UserRepository userRepository;
 
-
+    @UserLoginToken
     @RequestMapping("/getAllUser")
     @ResponseBody
     public List<User> findAll() {
