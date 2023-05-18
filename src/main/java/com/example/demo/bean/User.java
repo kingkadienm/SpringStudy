@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @description: 用户
@@ -23,48 +24,29 @@ public class User implements Serializable {
     private Long id;
 
     @Column(name = "user_name")
-    private String userName;
+    private String userName = null;
     @Column(name = "user_id")
-    private String userId;
+    private String userId = null;
     @Column(name = "user_password")
-    private String userPassword;
+    private String userPassword = null;
 
+    @Column(name = "create_time")
+    private Date createTime;
 
-    public User(){}
+    @Column(name = "avatar_url")
+    private String avatarUrl = null;
+
+    public User() {
+    }
 
     public User(String userName) {
         this.userName = userName;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
+    public User(String userName, String userPassword) {
         this.userName = userName;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+
     }
+
 }

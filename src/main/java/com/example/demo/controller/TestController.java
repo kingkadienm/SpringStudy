@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.bean.QueryUserBean;
 import com.example.demo.bean.User;
 import com.example.demo.log.LogUtils;
 import com.example.demo.repository.UserRepository;
@@ -37,5 +38,10 @@ public class TestController {
         List<User> list = new ArrayList<>();
         list = userRepository.findAll();
         return list;
+    }
+
+    @RequestMapping("/getUser")
+    public List<QueryUserBean> findUserNameAndUserIdByUserId(String userID) {
+        return userRepository.findUserByUserId(userID);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.bean.User;
+import com.example.demo.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import java.util.Map;
 class DemoApplicationTests {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private UserRepository userRepository;
     //记录器
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -40,5 +45,12 @@ class DemoApplicationTests {
         maps.forEach(System.out::println);
     }
 
+    @Test
+    public void testFindUserByName() {
+        List<User> userByUserName = userRepository.findUserByUserName("e413e29c60c84ffc92871f8a268c8dba");
+        for (User user : userByUserName) {
+            logger.error(user.toString());
+        }
+    }
 
 }
