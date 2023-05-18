@@ -1,12 +1,14 @@
 package com.example.demo.controller;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import com.example.demo.dao.UserDao;
 import com.example.demo.bean.User;
 import com.example.demo.bean.request.ReceiveBean;
 import com.example.demo.bean.response.ResponseBean;
+import com.example.demo.enums.ResponseEnum;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.IUserService;
-import lombok.NonNull;
+import com.example.demo.tools.PassToken;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,15 +35,16 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
-    @RequestMapping("/getAllUser")
+    @PostMapping("/getAllUser")
     @ResponseBody
-    public ResponseBean findAll() {
+
+    public ResponseBean<User> findAll() {
         List<User> list = userRepository.findAll();
         ResponseBean responseBean = null;
         if (list == null) {
-            responseBean = new ResponseBean(404, "没有该数据", null);
+            responseBean = ResponseBean.error(ResponseEnum.SUCCESS.getCode(), "没有该数据");
         } else {
-            responseBean = new ResponseBean(200, "查询成功", list);
+            responseBean = ResponseBean.ok(list);
         }
         return responseBean;
     }
@@ -59,22 +62,29 @@ public class UserController {
 //        return responseBean;
 //    }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @PostMapping(value = "/register")
     @ResponseBody
-    public ResponseBean registerUser(@RequestBody  ReceiveBean receiveBean) {
-        log.info("========registerUser=" + receiveBean);
-
-        return iUserService.registerUser(receiveBean);
+    @PassToken
+    public ResponseBean<User> registerUser(@RequestParam("userName") String userName, @RequestParam("password") String password) {
+        log.info("========registerUser=" + userName);
+        log.info("========registerUser=" + password);
+        if (CharSequenceUtil.isBlank(userName) || CharSequenceUtil.isBlank(password)) {
+            return ResponseBean.error(200, "账号密码不能为空");
+        }
+        return iUserService.registerUser(userName, password);
     }
 
-    @RequestMapping("/login")
+    @PostMapping(value = "/login")
     @ResponseBody
-    public ResponseBean loginUser(@RequestBody ReceiveBean receiveBean, HttpServletRequest request) {
+    @PassToken
+    public ResponseBean<User> loginUser(@RequestParam("userName") String userName, @RequestParam("password") String password) {
 
-        ResponseBean responseBean = iUserService.loginCheck(request);
+        if (CharSequenceUtil.isBlank(userName) || CharSequenceUtil.isBlank(password)) {
 
+            return ResponseBean.error(200, "账号密码不能为空");
+        }
 
-        return iUserService.loginUser();
+        return iUserService.login(userName, password);
     }
 
 }

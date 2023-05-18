@@ -1,21 +1,19 @@
 package com.example.demo.service;
 
+import com.example.demo.bean.User;
 import com.example.demo.bean.request.ReceiveBean;
 import com.example.demo.bean.response.ResponseBean;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 public interface IUserService {
 
-    public ResponseBean loginCheck(HttpServletRequest request);
+    public ResponseBean<User> login(String userName, String password);
 
-    public ResponseBean getLoginInfo();
+    public ResponseBean<User> getLoginInfo();
 
-    public ResponseBean loginUser();
 
-    ResponseBean registerUser(@RequestBody ReceiveBean receiveBean);
+
+    ResponseBean<User> registerUser(String userName, String password);
 
 }

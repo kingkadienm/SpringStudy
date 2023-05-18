@@ -1,43 +1,72 @@
 package com.example.demo.bean.response;
 
+import com.example.demo.enums.ResponseEnum;
+import lombok.Data;
+
+import java.io.Serializable;
+
 /**
- * @description:
- * @author: wangzs
- * @create: 2022-04-13 21:02
- **/
-public class ResponseBean  {
+ * @author young
+ * @date 2022/8/19 21:52
+ * @description: 统一返回结果的类
+ */
 
-    private int code;
+@Data
+public class ResponseBean<T> implements Serializable {
+
+    private static final long serialVersionUID = 56665257248936049L;
+    /**
+     * 响应码
+     **/
+    private Integer code;
+
+    /**
+     * 返回消息
+     **/
     private String message;
-    private Object result;
 
-    public ResponseBean(int code, String message, Object result) {
-        this.code = code;
-        this.message = message;
-        this.result = result;
+    /**
+     * 返回数据
+     **/
+    private T result;
+
+    private ResponseBean() {
     }
 
-    public int getCode() {
-        return code;
+    /**
+     * 操作成功ok方法
+     */
+    public static <T> ResponseBean<T> ok(T data) {
+        ResponseBean<T> response = new ResponseBean<>();
+        response.setCode(ResponseEnum.SUCCESS.getCode());
+        response.setMessage(ResponseEnum.SUCCESS.getResultMessage());
+        response.setResult(data);
+        return response;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+
+    public static <T> ResponseBean<T> error(Integer errCode, String errMessage){
+        ResponseBean<T> response = new ResponseBean<>();
+        response.setCode(errCode);
+        response.setMessage(errMessage);
+        return response;
     }
 
-    public String getMessage() {
-        return message;
+    /**
+     * 编译失败方法
+     */
+    public static <T> ResponseBean<T> buildFailure(Integer errCode, String errMessage) {
+        ResponseBean<T> response = new ResponseBean<>();
+        response.setCode(errCode);
+        response.setMessage(errMessage);
+        return response;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
-    public Object getResult() {
-        return result;
-    }
-
-    public void setResult(Object result) {
-        this.result = result;
+    public static <T> ResponseBean<T> exception(Integer errCode, String errMessage) {
+        ResponseBean<T> response = new ResponseBean<>();
+        response.setCode(errCode);
+        response.setMessage(errMessage);
+        return response;
     }
 }

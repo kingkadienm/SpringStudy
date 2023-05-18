@@ -3,15 +3,16 @@ package com.example.demo.service;
 import com.example.demo.bean.User;
 import com.example.demo.bean.request.ReceiveBean;
 import com.example.demo.bean.response.ResponseBean;
+import com.example.demo.enums.ResponseEnum;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.utils.SM4Utils;
+import com.example.demo.utils.TokenUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -22,43 +23,45 @@ public class UserService implements IUserService {
     private UserRepository userRepository;
 
     @Override
-    public ResponseBean loginCheck(HttpServletRequest request) {
-        request.getHeader("");
-
-        return null;
-    }
-
-    @Override
-    public ResponseBean getLoginInfo() {
-        return null;
-    }
-
-    @Override
-    public ResponseBean loginUser() {
-        return null;
-    }
-
-    @Override
-    public ResponseBean registerUser(@RequestBody ReceiveBean receiveBean) {
-        String userName = receiveBean.getUserName();
-        log.info("========="+receiveBean.getUserName());
-        List<User> user = userRepository.findUserByUserName(userName);
-        for (User user1 : user) {
-            log.error(user1.toString());
+    public ResponseBean<User> login(String userName, String password) {
+        User user = userRepository.findUserByUserName(userName);
+        String encryptPassword = SM4Utils.encrypt(password);
+        if (user.getUserPassword().contentEquals(encryptPassword)) {
+            String token = TokenUtils.getToken(user.getUserId(), encryptPassword);
+            user.setToken(token);
+            userRepository.save(user);
+            return ResponseBean.ok(user);
+        } else {
+            return ResponseBean.error(ResponseEnum.SUCCESS.getCode(), "账号或密码错误");
         }
-        ResponseBean responseBean = null;
 
-//        if (user == null) {
-//            String id = UUID.randomUUID().toString().replaceAll("-", "");
-//            User user1 = new User(userName, receiveBean.getUserPassword());
-//            user1.setId(55L);
-//            user1.setUserId(id);
-//            user1.setCreateTime(new Date());
-//            User save = userRepository.save(user1);
-//            responseBean = new ResponseBean(200, "注册成功", save);
-//        } else {
-//        }
-            responseBean = new ResponseBean(404, "该用户已经存在", user);
+    }
+
+    @Override
+    public ResponseBean<User> getLoginInfo() {
+        return null;
+    }
+
+
+    @Override
+    public ResponseBean<User> registerUser(String userName, String password) {
+        User user = userRepository.findUserByUserName(userName);
+        ResponseBean<User> responseBean = null;
+        if (user == null) {
+            String id = UUID.randomUUID().toString().replaceAll("-", "");
+            String encryptPassword = SM4Utils.encrypt(password);
+            User user1 = new User(userName, encryptPassword);
+            user1.setId(55L);
+            user1.setUserId(id);
+            user1.setCreateTime(new Date());
+            User save = userRepository.save(user1);
+            responseBean = ResponseBean.ok(save);
+
+        } else {
+            user.setUserPassword(null);
+            log.info(user.toString());
+            responseBean = ResponseBean.error(200, "该用户已注册");
+        }
         return responseBean;
     }
 }

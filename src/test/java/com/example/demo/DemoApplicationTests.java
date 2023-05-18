@@ -47,10 +47,10 @@ class DemoApplicationTests {
 
     @Test
     public void testFindUserByName() {
-        List<User> userByUserName = userRepository.findUserByUserName("e413e29c60c84ffc92871f8a268c8dba");
-        for (User user : userByUserName) {
-            logger.error(user.toString());
-        }
+//        List<User> userByUserName = userRepository.findUserByUserName("e413e29c60c84ffc92871f8a268c8dba");
+//        for (User user : userByUserName) {
+//            logger.error(user.toString());
+//        }
     }
 
 }

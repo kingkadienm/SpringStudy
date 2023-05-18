@@ -1,5 +1,6 @@
 package com.example.demo.utils;
 
+import cn.hutool.core.date.DateUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -61,17 +62,23 @@ public class TokenUtils {
             return  false;
         }
     }
-    public static void main(String[] args) {
-        String username ="zhangsan";
-        String password = "123";
-        String token = token(username,password);
-        System.out.println(token);
-        boolean b = verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMyIsImV4cCI6MTY1NzA5ODE4MCwidXNlcm5hbWUiOiJ6aGFuZ3NhbiJ9.W-IgXJmNBrboXlzT_PtPkTavYhgRn9ZwkVpJoJLU6ks");
-        Claim username1 = JWT.decode("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMyIsImV4cCI6MTY1NzA5ODE4MCwidXNlcm5hbWUiOiJ6aGFuZ3NhbiJ9.W-IgXJmNBrboXlzT_PtPkTavYhgRn9ZwkVpJoJLU6k1").getClaim("username");
-        System.out.println("我是从token中获取的信息"+username1.asString());
 
-        System.out.println(b);
+    /**
+     * 生成token
+     * @param userId
+     * @param sign
+     * @return
+     */
+    public static String getToken(String userId,String sign) {
+        return JWT.create()
+                //签收者
+                .withAudience(userId)
+                //主题
+                .withSubject("token")
+                //2小时候token过期
+                .withExpiresAt(DateUtil.offsetHour(new Date(), 2))
+                //以password作为token的密钥
+                .sign(Algorithm.HMAC256(sign));
     }
-
 
 }

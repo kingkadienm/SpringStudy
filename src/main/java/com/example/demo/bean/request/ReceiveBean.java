@@ -17,13 +17,17 @@ import javax.management.Query;
  **/
 
 
+@NoArgsConstructor
 @Data
+@AllArgsConstructor
 public class ReceiveBean {
 
 
-
+    @JsonProperty("userName")
     private String userName;
+    @JsonProperty("userPassword")
     private String userPassword;
+    @JsonProperty("userID")
     private String userID;
 
     public String getUserName() {

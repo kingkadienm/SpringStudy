@@ -20,16 +20,17 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 
+//    @Transactional
+//    @Query("SELECT new com.example.demo.bean.QueryUserBean(u.userName, u.userId, u.createTime)  FROM User u WHERE u.userId = :inputUserId")
+//    List<QueryUserBean> findUserByUserId(@Param("inputUserId") String inputUserId);
+
+
     @Transactional
-    @Query("SELECT new com.example.demo.bean.QueryUserBean(u.userName, u.userId, u.createTime)  FROM User u WHERE u.userId = :inputUserId")
-    List<QueryUserBean> findUserByUserId(@Param("inputUserId") String inputUserId);
+//    @Query("SELECT u.userName, u.userId, u.createTime FROM User u WHERE u.userName = :userName")
+    User findUserByUserName(String userName);
 
-//    @Query("select u.userName,u.userId,u.createTime,u.avatarUrl from User u where u.userId=:userID")
-//    List<User> findUserByUserId(@Param("userID") String userID);
-
-
-    @Query("select u.userName,u.userId,u.createTime,u.avatarUrl from User u where u.userName = :inputUserId")
-    List<User> findUserByUserName(@Param("inputUserId") String userID);
+    @Transactional
+    User findUserByUserId(String userID);
 
 
 }

@@ -2,16 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.bean.QueryUserBean;
 import com.example.demo.bean.User;
+import com.example.demo.bean.request.ReceiveBean;
 import com.example.demo.log.LogUtils;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.tools.PassToken;
 import com.example.demo.tools.UserLoginToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +38,8 @@ public class TestController {
         return list;
     }
 
-    @RequestMapping("/getUser")
-    public List<QueryUserBean> findUserNameAndUserIdByUserId(String userID) {
-        return userRepository.findUserByUserId(userID);
+    @RequestMapping(value = "/getUser",method = RequestMethod.POST)
+    public User findUserNameAndUserIdByUserId(@RequestBody ReceiveBean userID) {
+        return userRepository.findUserByUserId(userID.getUserID());
     }
 }
