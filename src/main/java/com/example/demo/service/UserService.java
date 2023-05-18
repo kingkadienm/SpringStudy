@@ -30,6 +30,7 @@ public class UserService implements IUserService {
             String token = TokenUtils.getToken(user.getUserId(), encryptPassword);
             user.setToken(token);
             userRepository.save(user);
+            user.setUserPassword(null);
             return ResponseBean.ok(user);
         } else {
             return ResponseBean.error(ResponseEnum.SUCCESS.getCode(), "账号或密码错误");
@@ -54,6 +55,8 @@ public class UserService implements IUserService {
             user1.setId(55L);
             user1.setUserId(id);
             user1.setCreateTime(new Date());
+            user1.setToken("");
+            user1.setAvatarUrl("");
             User save = userRepository.save(user1);
             responseBean = ResponseBean.ok(save);
 

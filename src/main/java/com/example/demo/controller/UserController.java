@@ -28,8 +28,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private UserDao userDao;
+//    @Autowired
+//    private UserDao userDao;
 
     //    @Qualifier("IUserService")
     @Autowired
@@ -38,9 +38,9 @@ public class UserController {
     @PostMapping("/getAllUser")
     @ResponseBody
 
-    public ResponseBean<User> findAll() {
+    public ResponseBean<List<User>> findAll() {
         List<User> list = userRepository.findAll();
-        ResponseBean responseBean = null;
+        ResponseBean<List<User>> responseBean = null;
         if (list == null) {
             responseBean = ResponseBean.error(ResponseEnum.SUCCESS.getCode(), "没有该数据");
         } else {

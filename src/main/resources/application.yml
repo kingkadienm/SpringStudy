@@ -1,14 +1,17 @@
 spring:
-#  security:
-#    user:
-#      name: user
-#      password: 8240d31c-b614-45ea-a86b-30459ca203c6
+  #  security:
+  #    user:
+  #      name: user
+  #      password: 8240d31c-b614-45ea-a86b-30459ca203c6
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/user?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
-    password: 123456
+    #    url: jdbc:mysql://localhost:3306/spring_demo?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    #    username: root
+    #    password: 123456
+    url: jdbc:mysql://49.234.147.89:3306/spring_study?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: spring_study
+    password: wang1234.
   jpa:
     properties:
       hibernate:
@@ -20,7 +23,7 @@ spring:
 
   jackson:
     property-naming-strategy: SNAKE_CASE
-#    default-property-inclusion: non_null
+    #    default-property-inclusion: non_null
     date-format: yyyy-MM-dd
     time-zone: GMT+8
     serialization:
@@ -36,7 +39,7 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
-  type-aliases-package:  com.example.demo
+  type-aliases-package: com.example.demo
 
 server:
   port: 8081
