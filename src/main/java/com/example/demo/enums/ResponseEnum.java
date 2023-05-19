@@ -30,6 +30,8 @@ public enum ResponseEnum {
 
     USER_EX(402, "用户不存在，请重新登录"),
 
+
+
     /**
      * 错误请求
      **/

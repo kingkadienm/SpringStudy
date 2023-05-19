@@ -11,6 +11,7 @@ import com.example.demo.enums.ResponseEnum;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.tools.PassToken;
 import com.example.demo.utils.MyException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -19,6 +20,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @class : HandlerInterceptor
@@ -28,12 +33,18 @@ import java.lang.reflect.Method;
  */
 
 @Component
+@Log4j2
 public class AuthInfoInterceptor implements HandlerInterceptor {
     @Autowired
     private UserRepository adminService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        log.error(request.getRequestURI());
+        if (request.getRequestURI().contentEquals("/error")) {
+            return true;
+        }
         String token = request.getHeader("token");
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -41,6 +52,7 @@ public class AuthInfoInterceptor implements HandlerInterceptor {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
         //检查是否通过有PassToken注解
+
         if (method.isAnnotationPresent(PassToken.class)) {
             //如果有则跳过认证检查
             PassToken passToken = method.getAnnotation(PassToken.class);
@@ -65,13 +77,16 @@ public class AuthInfoInterceptor implements HandlerInterceptor {
         if (user == null) {
             throw new MyException(ResponseEnum.USER_EX.getCode(), ResponseEnum.USER_EX.getResultMessage());
         }
+//        String password = request.getParameter("password");
+//        String userName = request.getParameter("userName");
 
         //验证token
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getUserPassword())).build();
         try {
             jwtVerifier.verify(token);
-        } catch (JWTVerificationException e) {
-            throw new MyException(406, "权限验证失败！");
+        } catch (
+                JWTVerificationException e) {
+            throw new MyException(406, "权限验证失败！请重新登录");
         }
         return true;
     }

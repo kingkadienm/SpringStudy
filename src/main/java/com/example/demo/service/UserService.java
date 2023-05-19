@@ -1,16 +1,15 @@
 package com.example.demo.service;
 
 import com.example.demo.bean.User;
-import com.example.demo.bean.request.ReceiveBean;
 import com.example.demo.bean.response.ResponseBean;
 import com.example.demo.enums.ResponseEnum;
+import com.example.demo.iservice.IUserService;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.utils.SM4Utils;
 import com.example.demo.utils.TokenUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
 import java.util.UUID;

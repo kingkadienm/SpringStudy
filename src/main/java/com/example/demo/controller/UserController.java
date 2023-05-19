@@ -1,19 +1,16 @@
 package com.example.demo.controller;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import com.example.demo.dao.UserDao;
 import com.example.demo.bean.User;
-import com.example.demo.bean.request.ReceiveBean;
 import com.example.demo.bean.response.ResponseBean;
 import com.example.demo.enums.ResponseEnum;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.IUserService;
+import com.example.demo.iservice.IUserService;
 import com.example.demo.tools.PassToken;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
