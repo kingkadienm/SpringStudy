@@ -7,10 +7,10 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/spring_study?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    #    username: spring_study
-    #    password: wang1234.
-    username: root
-    password: 123456
+    username: spring_study
+    password: wang1234.
+#    username: root
+#    password: 123456
   #    url: jdbc:mysql://49.234.147.89:3306/spring_study?useUnicode=true&characterEncoding=UTF-8&useSSL=false
   #    username: spring_study
   #    password: wang1234.
@@ -50,10 +50,12 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
   type-aliases-package: com.example.demo
-
+custom:
+  http-port: 8070
 server:
   port: 8081
   ssl:
-    key-store: classpath:blog.wangzs.com.cn_bundle.pem
-    key-store-type: PEM
-    key-store-password:
+    key-store: classpath:blog.wangzs.com.cn.jks
+    key-store-type: JKS
+    key-store-password: lo910gdf726ir
+    enabled: true
