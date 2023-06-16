@@ -25,7 +25,10 @@ public class UserService implements IUserService {
     public ResponseBean<User> login(String userName, String password) {
         User user = userRepository.findUserByUserName(userName);
         String encryptPassword = SM4Utils.encrypt(password);
-        if (user.getUserPassword().contentEquals(encryptPassword)) {
+        if (user == null) {
+            return ResponseBean.error(ResponseEnum.USER_EX.getCode(), "用户不存在");
+
+        } else if (user.getUserPassword().contentEquals(encryptPassword)) {
             String token = TokenUtils.getToken(user.getUserId(), encryptPassword);
             user.setToken(token);
             userRepository.save(user);
@@ -56,6 +59,7 @@ public class UserService implements IUserService {
             user1.setCreateTime(new Date());
             user1.setToken("");
             user1.setAvatarUrl("");
+            user1.setUserPassword("");
             User save = userRepository.save(user1);
             responseBean = ResponseBean.ok(save);
 

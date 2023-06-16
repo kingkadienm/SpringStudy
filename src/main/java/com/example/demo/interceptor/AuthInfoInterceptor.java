@@ -13,6 +13,7 @@ import com.example.demo.tools.PassToken;
 import com.example.demo.utils.MyException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -38,10 +39,21 @@ public class AuthInfoInterceptor implements HandlerInterceptor {
     @Autowired
     private UserRepository adminService;
 
+
+    @Value("${custom-configure.token-verify}")
+    boolean customTokenVerify;
+
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         log.error(request.getRequestURI());
+
+        //是否开启token校验
+        if (!customTokenVerify){
+            return true;
+        }
+
         if (request.getRequestURI().contentEquals("/error")) {
             return true;
         }

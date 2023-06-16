@@ -28,7 +28,7 @@ public enum ResponseEnum {
     NO_TOKEN(400, "无token，请重新登录"),
     TOKEN_EX(401, "token验证失败，请重新登录"),
 
-    USER_EX(402, "用户不存在，请重新登录"),
+    USER_EX(402, "用户不存在"),
 
 
 
